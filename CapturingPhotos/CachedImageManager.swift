@@ -60,4 +60,8 @@ actor CachedImageManager {
                                        options: requestOptions)
     }
     
+    func stopCaching() {
+        imageManager.stopCachingImagesForAllAssets()
+    }
+    
 }
