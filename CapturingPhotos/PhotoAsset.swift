@@ -72,4 +72,10 @@ extension PhotoAsset: Equatable {
     }
 }
 
+extension PhotoAsset: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(identifier)
+    }
+}
+
 fileprivate let logger = Logger(subsystem: "com.apple.swiftplaygroundscontent.capturingphotos", category: "PhotoAsset")
