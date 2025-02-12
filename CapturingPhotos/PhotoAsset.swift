@@ -28,5 +28,14 @@ struct PhotoAsset: Identifiable {
         "Photo\(isFavorite ? ", Favorite" : "")"
     }
     
+    init(phAsset: PHAsset, index: Int?) {
+        self.phAsset = phAsset
+        self.index = index
+        self.identifier = phAsset.localIdentifier
+    }
     
+    init(identifier: String) {
+        self.identifier = identifier
+        let fetchedAssets = PHAsset.fetchAssets(withLocalIdentifiers: [identifier], options: nil)
+    }
 }
