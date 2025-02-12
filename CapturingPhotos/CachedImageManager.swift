@@ -5,4 +5,16 @@
 //  Created by Oleksii on 12.02.2025.
 //
 
-import Foundation
+import UIKit
+import Photos
+import SwiftUI
+import os.log
+
+actor CachedImageManager {
+    
+    private let imageManager = PHCachingImageManager()
+    
+    private var imageContentMode = PHImageContentMode.aspectFit
+    
+    
+}
