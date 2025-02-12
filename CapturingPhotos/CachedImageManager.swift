@@ -21,4 +21,22 @@ actor CachedImageManager {
         case cancelled
         case failed
     }
+    
+    private var cachedAssetIdentifiers = [String : Bool]()
+    
+    private lazy var requestOptions: PHImageRequestOptions = {
+        let options = PHImageRequestOptions()
+        options.deliveryMode = .opportunistic
+        return options
+    }()
+    
+    init() {
+        imageManager.allowsCachingHighQualityImages = false
+    }
+    
+    var cachedImageCount: Int {
+        cachedAssetIdentifiers.keys.count
+    }
+    
+    
 }
