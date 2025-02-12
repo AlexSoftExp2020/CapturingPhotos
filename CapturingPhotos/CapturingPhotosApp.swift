@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct CapturingPhotosApp: App {
+    
+    init() {
+        //MARK: TODO UINavigationBar.applyCustomAppearance()
+    }
     var body: some Scene {
         WindowGroup {
-            ContentView()
+        //MARK: TODO CameraView()
         }
     }
 }
+
