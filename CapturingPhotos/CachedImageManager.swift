@@ -16,5 +16,9 @@ actor CachedImageManager {
     
     private var imageContentMode = PHImageContentMode.aspectFit
     
-    
+    enum CachedImageManagerError: LocalizedError {
+        case error(Error)
+        case cancelled
+        case failed
+    }
 }
