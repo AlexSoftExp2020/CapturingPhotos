@@ -49,4 +49,15 @@ actor CachedImageManager {
                                         options: requestOptions)
     }
     
+    func stopCaching(for assets: [PhotoAsset], targetSize: CGSize) {
+        let phAssets = assets.compactMap { $0.phAsset }
+        phAssets.forEach {
+            cachedAssetIdentifiers.removeValue(forKey: $0.localIdentifier)
+        }
+        imageManager.stopCachingImages(for: phAssets,
+                                       targetSize: targetSize,
+                                       contentMode: imageContentMode,
+                                       options: requestOptions)
+    }
+    
 }
