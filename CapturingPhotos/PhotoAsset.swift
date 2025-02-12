@@ -66,4 +66,10 @@ struct PhotoAsset: Identifiable {
     }
 }
 
+extension PhotoAsset: Equatable {
+    static func ==(lhs: PhotoAsset, rhs: PhotoAsset) -> Bool {
+        (lhs.identifier == rhs.identifier) && (lhs.isFavorite == rhs.isFavorite)
+    }
+}
+
 fileprivate let logger = Logger(subsystem: "com.apple.swiftplaygroundscontent.capturingphotos", category: "PhotoAsset")
