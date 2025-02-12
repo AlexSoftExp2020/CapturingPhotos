@@ -38,4 +38,20 @@ struct PhotoAsset: Identifiable {
         self.identifier = identifier
         let fetchedAssets = PHAsset.fetchAssets(withLocalIdentifiers: [identifier], options: nil)
     }
+    
+    func setIsFavorite(_ isFavorite: Bool) async {
+        guard let phAsset = phAsset else { return }
+        Task {
+            do {
+                try await PHPhotoLibrary.shared().performChanges {
+                    let request = PHAssetChangeRequest(for: phAsset)
+                    request.isFavorite = isFavorite
+                }
+            } catch (let error) {
+                logger.error("Failed to change isFavorite: \(error.localizedDescription)")
+            }
+        }
+    }
 }
+
+fileprivate let logger = Logger(subsystem: "com.apple.swiftplaygroundscontent.capturingphotos", category: "PhotoAsset")
