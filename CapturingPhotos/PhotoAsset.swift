@@ -52,6 +52,18 @@ struct PhotoAsset: Identifiable {
             }
         }
     }
+    
+    func delete() async {
+        guard let phAsset = phAsset else { return }
+        do {
+            try await PHPhotoLibrary.shared().performChanges {
+                PHAssetChangeRequest.deleteAssets([phAsset] as NSArray)
+            }
+            logger.debug("PhotoAsset asset deleted \(index ?? -1)")
+        } catch (let error) {
+            logger.error("Failed to delete photo: \(error.localizedDescription)")
+        }
+    }
 }
 
 fileprivate let logger = Logger(subsystem: "com.apple.swiftplaygroundscontent.capturingphotos", category: "PhotoAsset")
