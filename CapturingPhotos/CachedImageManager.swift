@@ -92,6 +92,10 @@ actor CachedImageManager {
         return requestID
     }
     
+    func cancelImageRequest(for requestID: PHImageRequestID) {
+        imageManager.cancelImageRequest(requestID)
+    }
+    
 }
 
 fileprivate let logger = Logger(subsystem: "upd.CapturingPhotos", category: "CachedImageManager")
