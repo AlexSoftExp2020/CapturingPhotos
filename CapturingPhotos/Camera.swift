@@ -101,4 +101,12 @@ class Camera: NSObject {
             }
         }
     }()
+    
+    lazy var photoStream: AsyncStream<AVCapturePhoto> = {
+        AsyncStream { continuation in
+            addToPhotoStream = { photo in
+                continuation.yield(photo)
+            }
+        }
+    }()
 }
