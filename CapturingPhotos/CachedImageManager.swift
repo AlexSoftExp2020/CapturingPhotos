@@ -82,3 +82,5 @@ actor CachedImageManager {
     }
     
 }
+
+fileprivate let logger = Logger(subsystem: "upd.CapturingPhotos", category: "CachedImageManager")
