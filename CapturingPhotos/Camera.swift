@@ -85,4 +85,10 @@ class Camera: NSObject {
         guard let captureDevice = captureDevice else { return false }
         return backCaptureDevices.contains(captureDevice)
     }
+    
+    private var addToPhotoStream: ((AVCapturePhoto) -> Void)?
+    
+    private var addToPreviewStream: ((CIImage) -> Void)?
+    
+    var isPreviewPaused = false
 }
