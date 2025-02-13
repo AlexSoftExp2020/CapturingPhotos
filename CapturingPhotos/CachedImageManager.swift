@@ -64,4 +64,21 @@ actor CachedImageManager {
         imageManager.stopCachingImagesForAllAssets()
     }
     
+    @discardableResult
+    func requestImage(for asset: PhotoAsset, targetSize: CGSize, completion: @escaping ((image: Image?, isLowerQuality: Bool)?) -> Void) -> PHImageRequestID? {
+        guard let phAsset = asset.phAsset else {
+            completion(nil)
+            return nil
+        }
+        
+        let requestID = imageManager.requestImage(for: phAsset,
+                                                  targetSize: targetSize,
+                                                  contentMode: imageContentMode,
+                                                  options: requestOptions) { image, info in
+            if let error = info?[PHImageErrorKey] as? Error {
+                //MARK: TODO
+            }
+        }
+    }
+    
 }
