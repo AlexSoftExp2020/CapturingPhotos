@@ -75,4 +75,9 @@ class Camera: NSObject {
     var isRunning: Bool {
         captureSession.isRunning
     }
+    
+    var isUsingFrontCaptureDevice: Bool {
+        guard let captureDevice = captureDevice else { return false }
+        return frontCaptureDevices.contains(captureDevice)
+    }
 }
