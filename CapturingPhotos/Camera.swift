@@ -71,4 +71,8 @@ class Camera: NSObject {
             }
         }
     }
+    
+    var isRunning: Bool {
+        captureSession.isRunning
+    }
 }
