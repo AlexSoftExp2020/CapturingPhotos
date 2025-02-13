@@ -203,4 +203,14 @@ class Camera: NSObject {
             return false
         }
     }
+    
+    private func deviceInputFor(device: AVCaptureDevice?) -> AVCaptureDeviceInput? {
+        guard let validDevice = device else { return nil }
+        do {
+            return try AVCaptureDeviceInput(device: validDevice)
+        } catch let error {
+            logger.error("Error getting capture device input: \(error.localizedDescription)")
+            return nil
+        }
+    }
 }
