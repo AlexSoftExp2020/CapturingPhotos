@@ -55,4 +55,20 @@ class Camera: NSObject {
 #endif
         return devices
     }
+    
+    private var availableCaptureDevices: [AVCaptureDevice] {
+        captureDevices
+            .filter { $0.isConnected }
+            .filter { $0.isSuspended }
+    }
+    
+    private var captureDevice: AVCaptureDevice? {
+        didSet {
+            guard let captureDevice = captureDevice else { return }
+            logger.debug("Using capture device: \(captureDevice.localizedName)")
+            sessionQueue.async {
+                self.updateSessionForCaptureDevice(captureDevice)
+            }
+        }
+    }
 }
