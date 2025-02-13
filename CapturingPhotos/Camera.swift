@@ -80,4 +80,9 @@ class Camera: NSObject {
         guard let captureDevice = captureDevice else { return false }
         return frontCaptureDevices.contains(captureDevice)
     }
+    
+    var isUsingBackCaptureDevice: Bool {
+        guard let captureDevice = captureDevice else { return false }
+        return backCaptureDevices.contains(captureDevice)
+    }
 }
