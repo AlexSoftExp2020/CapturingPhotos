@@ -109,4 +109,21 @@ class Camera: NSObject {
             }
         }
     }()
+    
+    override init() {
+        super.init()
+        initialize()
+    }
+    
+    private func initialize() {
+        sessionQueue = DispatchQueue(label: "session queue")
+        
+        captureDevice = availableCaptureDevices.first ?? AVCaptureDevice.default(for: .video)
+        
+        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateForDeviceOrientation),
+                                               name: UIDevice.orientationDidChangeNotification,
+                                               object: nil)
+    }
 }
