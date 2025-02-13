@@ -91,4 +91,14 @@ class Camera: NSObject {
     private var addToPreviewStream: ((CIImage) -> Void)?
     
     var isPreviewPaused = false
+    
+    lazy var previewStream: AsyncStream<CIImage> = {
+        AsyncStream { continuation in
+            addToPreviewStream = { ciImage in
+                if !self.isPreviewPaused {
+                    continuation.yield(ciImage)
+                }
+            }
+        }
+    }()
 }
