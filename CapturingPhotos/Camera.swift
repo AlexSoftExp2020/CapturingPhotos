@@ -275,4 +275,15 @@ class Camera: NSObject {
             }
         }
     }
+    
+    func switchCaptureDevice() {
+        if let captureDevice = captureDevice, let index = availableCaptureDevices.firstIndex(of: captureDevice) {
+            let nextIndex = (index + 1) % availableCaptureDevices.count
+            self.captureDevice = availableCaptureDevices[nextIndex]
+        } else {
+            self.captureDevice = AVCaptureDevice.default(for: .video)
+        }
+    }
+    
+    
 }
