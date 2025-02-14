@@ -39,4 +39,17 @@ final class DataModel: ObservableObject {
         }
     }
     
+    func handleCameraPhotos() async {
+        let unpackedPhotoStream = camera.photoStream
+            .compactMap { self.unpackPhoto($0) }
+        
+        for await photoData in unpackedPhotoStream {
+            Task { @MainActor in
+                thumbnailImage = photoData.thumbnailImage
+            }
+            savePhoto(imageData: photoData.imageData)
+        }
+    }
+    
+    
 }
