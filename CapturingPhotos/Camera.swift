@@ -346,5 +346,14 @@ class Camera: NSObject {
             photoOutput.capturePhoto(with: photoSettings, delegate: self)
         }
     }
+}
 
+extension Camera: AVCapturePhotoCaptureDelegate {
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        if let error = error {
+            logger.error("Error capturing photo: \(error.localizedDescription)")
+            return
+        }
+        addToPhotoStream?(photo)
+    }
 }
