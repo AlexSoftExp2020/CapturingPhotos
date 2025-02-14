@@ -357,3 +357,17 @@ extension Camera: AVCapturePhotoCaptureDelegate {
         addToPhotoStream?(photo)
     }
 }
+
+extension Camera: AVCaptureVideoDataOutputSampleBufferDelegate {
+    
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        guard let pixelBuffer = sampleBuffer.imageBuffer else { return }
+        
+        if connection.isVideoOrientationSupported,
+           let videoOrientation = videoOrientationFor(deviceOrientation) {
+            connection.videoOrientation = videoOrientation
+        }
+
+        addToPreviewStream?(CIImage(cvPixelBuffer: pixelBuffer))
+    }
+}
