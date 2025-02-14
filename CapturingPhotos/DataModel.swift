@@ -110,3 +110,10 @@ final class DataModel: ObservableObject {
         }
     }
 }
+
+fileprivate struct PhotoData {
+    var thumbnailImage: Image
+    var thumbnailSize: (width: Int, height: Int)
+    var imageData: Data
+    var imageSize: (width: Int, height: Int)
+}
