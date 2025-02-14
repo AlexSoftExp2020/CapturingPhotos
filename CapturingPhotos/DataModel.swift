@@ -17,4 +17,14 @@ final class DataModel: ObservableObject {
     @Published var thumbnailImage: Image?
     
     var isPhotosLoaded = false
+    
+    init() {
+        Task {
+            await handleCameraPreviews()
+        }
+        
+        Task {
+            await handleCameraPhotos()
+        }
+    }
 }
