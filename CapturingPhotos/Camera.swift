@@ -310,6 +310,11 @@ class Camera: NSObject {
             return AVCaptureVideoOrientation.landscapeLeft
         default: return nil
         }
+        
+        /*
+         private func getVideoOrientation(from coordinator: AVCaptureDeviceRotationCoordinator) -> AVCaptureVideoOrientation {
+             return coordinator.videoOrientation
+         */
     }
     
 
