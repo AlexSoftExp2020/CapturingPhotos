@@ -389,3 +389,5 @@ fileprivate extension UIScreen {
         }
     }
 }
+
+fileprivate let logger = Logger(subsystem: "upd.CapturingPhotos", category: "Camera")
