@@ -293,5 +293,8 @@ class Camera: NSObject {
         return orientation
     }
     
-    
+    @objc
+    func updateForDeviceOrientation() {
+        //TODO: Figure out if we need this for anything.
+    }
 }
