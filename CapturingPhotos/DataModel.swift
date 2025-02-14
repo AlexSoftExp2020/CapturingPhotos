@@ -51,5 +51,20 @@ final class DataModel: ObservableObject {
         }
     }
     
-    
+    private func unpackPhoto(_ photo: AVCapturePhoto) -> PhotoData? {
+        guard let imageData = photo.fileDataRepresentation() else { return nil }
+
+        guard let previewCGImage = photo.previewCGImageRepresentation(),
+           let metadataOrientation = photo.metadata[String(kCGImagePropertyOrientation)] as? UInt32,
+              let cgImageOrientation = CGImagePropertyOrientation(rawValue: metadataOrientation) else { return nil }
+        let imageOrientation = Image.Orientation(cgImageOrientation)
+        let thumbnailImage = Image(decorative: previewCGImage, scale: 1, orientation: imageOrientation)
+        
+        let photoDimensions = photo.resolvedSettings.photoDimensions
+        let imageSize = (width: Int(photoDimensions.width), height: Int(photoDimensions.height))
+        let previewDimensions = photo.resolvedSettings.previewDimensions
+        let thumbnailSize = (width: Int(previewDimensions.width), height: Int(previewDimensions.height))
+        
+        return PhotoData(thumbnailImage: thumbnailImage, thumbnailSize: thumbnailSize, imageData: imageData, imageSize: imageSize)
+    }
 }
