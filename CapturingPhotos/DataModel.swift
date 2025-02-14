@@ -78,4 +78,24 @@ final class DataModel: ObservableObject {
             }
         }
     }
+    
+    func loadPhotos() async {
+        guard !isPhotosLoaded else { return }
+        
+        let authorized = await PhotoLibrary.checkAuthorization()
+        guard authorized else {
+            logger.error("Photo library access was not authorized.")
+            return
+        }
+        
+        Task {
+            do {
+                try await self.photoCollection.load()
+                await self.loadThumbnail()
+            } catch let error {
+                logger.error("Failed to load photo collection: \(error.localizedDescription)")
+            }
+            self.isPhotosLoaded = true
+        }
+    }
 }
