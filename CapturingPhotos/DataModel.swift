@@ -27,4 +27,16 @@ final class DataModel: ObservableObject {
             await handleCameraPhotos()
         }
     }
+    
+    func handleCameraPreviews() async {
+        let imageStream = camera.previewStream
+            .map { $0.image }
+
+        for await image in imageStream {
+            Task { @MainActor in
+                viewfinderImage = image
+            }
+        }
+    }
+    
 }
