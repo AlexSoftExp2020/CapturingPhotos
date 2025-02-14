@@ -141,3 +141,5 @@ fileprivate extension Image.Orientation {
         }
     }
 }
+
+fileprivate let logger = Logger(subsystem: "upd.CapturingPhotos", category: "DataModel")
