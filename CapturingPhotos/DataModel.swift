@@ -67,4 +67,15 @@ final class DataModel: ObservableObject {
         
         return PhotoData(thumbnailImage: thumbnailImage, thumbnailSize: thumbnailSize, imageData: imageData, imageSize: imageSize)
     }
+    
+    func savePhoto(imageData: Data) {
+        Task {
+            do {
+                try await photoCollection.addImage(imageData)
+                logger.debug("Added image data to photo collection.")
+            } catch let error {
+                logger.error("Failed to add image to photo collection: \(error.localizedDescription)")
+            }
+        }
+    }
 }
