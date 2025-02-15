@@ -231,3 +231,12 @@ class PhotoCollection: NSObject, ObservableObject {
         return collections.firstObject
     }
 }
+
+extension PhotoCollection: PHPhotoLibraryChangeObserver {
+    func photoLibraryDidChange(_ changeInstance: PHChange) {
+        Task { @MainActor in
+            guard let changes = changeInstance.changeDetails(for: self.photoAssets.fetchResult) else { return }
+            await self.refreshPhotoAssets(changes.fetchResultAfterChanges)
+        }
+    }
+}
