@@ -205,4 +205,10 @@ class PhotoCollection: NSObject, ObservableObject {
         let collections = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: fetchOptions)
         return collections.firstObject
     }
+    
+    private static func getSmartAlbum(subtype: PHAssetCollectionSubtype) -> PHAssetCollection? {
+        let fetchOptions = PHFetchOptions()
+        let collections = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: subtype, options: fetchOptions)
+        return collections.firstObject
+    }
 }
