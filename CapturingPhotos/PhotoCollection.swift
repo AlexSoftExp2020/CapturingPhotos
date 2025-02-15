@@ -104,4 +104,31 @@ class PhotoCollection: NSObject, ObservableObject {
             await refreshPhotoAssets()
         }
     }
+    
+    func addImage(_ imageData: Data) async throws {
+        guard let assetCollection = self.assetCollection else {
+            throw PhotoCollectionError.missingAssetCollection
+        }
+        
+        do {
+            try await PHPhotoLibrary.shared().performChanges {
+                
+                let creationRequest = PHAssetCreationRequest.forAsset()
+                if let assetPlaceholder = creationRequest.placeholderForCreatedAsset {
+                    creationRequest.addResource(with: .photo, data: imageData, options: nil)
+                    
+                    if let albumChangeRequest = PHAssetCollectionChangeRequest(for: assetCollection), assetCollection.canPerform(.addContent) {
+                        let fastEnumeration = NSArray(array: [assetPlaceholder])
+                        albumChangeRequest.addAssets(fastEnumeration)
+                    }
+                }
+            }
+            
+            await refreshPhotoAssets()
+            
+        } catch let error {
+            logger.error("Error adding image to photo library: \(error.localizedDescription)")
+            throw PhotoCollectionError.addImageError(error)
+        }
+    }
 }
