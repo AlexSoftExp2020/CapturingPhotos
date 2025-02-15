@@ -16,6 +16,8 @@ class PhotoAssetCollection: RandomAccessCollection {
     var startIndex: Int { 0 }
     var endIndex: Int { fetchResult.count }
     
-    
+    init(_ fetchResult: PHFetchResult<PHAsset>) {
+        self.fetchResult = fetchResult
+    }
     
 }
