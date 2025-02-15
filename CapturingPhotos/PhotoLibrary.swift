@@ -32,3 +32,5 @@ class PhotoLibrary {
         }
     }
 }
+
+fileprivate let logger = Logger(subsystem: "upd.CapturingPhotos", category: "PhotoLibrary")
