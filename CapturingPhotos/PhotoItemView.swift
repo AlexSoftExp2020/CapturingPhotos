@@ -39,7 +39,3 @@ struct PhotoItemView: View {
         }
     }
 }
-
-#Preview {
-    PhotoItemView()
-}
