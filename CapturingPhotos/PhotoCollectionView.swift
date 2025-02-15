@@ -26,7 +26,23 @@ struct PhotoCollectionView: View {
     ]
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: Self.itemSpacing) {
+                ForEach(photoCollection.photoAssets) { asset in
+                    NavigationLink {
+                        PhotoView(asset: asset, cache: photoCollection.cache)
+                    } label: {
+                        photoItemView(asset: asset)
+                    }
+                    .buttonStyle(.borderless)
+                    .accessibilityLabel(asset.accessibilityLabel)
+                }
+            }
+            .padding([.vertical], Self.itemSpacing)
+        }
+        .navigationTitle(photoCollection.albumName ?? "Gallery")
+        .navigationBarTitleDisplayMode(.inline)
+        .statusBar(hidden: false)
     }
 }
 
