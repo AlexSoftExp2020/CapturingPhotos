@@ -172,4 +172,24 @@ class PhotoCollection: NSObject, ObservableObject {
             throw PhotoCollectionError.removeAllError(error)
         }
     }
+    
+    private func refreshPhotoAssets(_ fetchResult: PHFetchResult<PHAsset>? = nil) async {
+        
+        var newFetchResult = fetchResult
+
+        if newFetchResult == nil {
+            let fetchOptions = PHFetchOptions()
+            fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+            if let assetCollection = self.assetCollection, let fetchResult = (PHAsset.fetchAssets(in: assetCollection, options: fetchOptions) as AnyObject?) as? PHFetchResult<PHAsset> {
+                newFetchResult = fetchResult
+            }
+        }
+        
+        if let newFetchResult = newFetchResult {
+            await MainActor.run {
+                photoAssets = PhotoAssetCollection(newFetchResult)
+                logger.debug("PhotoCollection photoAssets refreshed: \(self.photoAssets.count)")
+            }
+        }
+    }
 }
