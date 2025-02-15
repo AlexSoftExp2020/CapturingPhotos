@@ -9,6 +9,22 @@ import SwiftUI
 import os.log
 
 struct PhotoCollectionView: View {
+    @ObservedObject var photoCollection : PhotoCollection
+    
+    @Environment(\.displayScale) private var displayScale
+    
+    private static let itemSpacing = 12.0
+    private static let itemCornerRadius = 15.0
+    private static let itemSize = CGSize(width: 90, height: 90)
+    
+    private var imageSize: CGSize {
+        return CGSize(width: Self.itemSize.width * min(displayScale, 2), height: Self.itemSize.height * min(displayScale, 2))
+    }
+    
+    private let columns = [
+        GridItem(.adaptive(minimum: itemSize.width, maximum: itemSize.height), spacing: itemSpacing)
+    ]
+    
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
