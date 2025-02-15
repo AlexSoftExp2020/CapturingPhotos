@@ -44,6 +44,32 @@ struct PhotoCollectionView: View {
         .navigationBarTitleDisplayMode(.inline)
         .statusBar(hidden: false)
     }
+    
+    private func photoItemView(asset: PhotoAsset) -> some View {
+        PhotoItemView(asset: asset, cache: photoCollection.cache, imageSize: imageSize)
+            .frame(width: Self.itemSize.width, height: Self.itemSize.height)
+            .clipped()
+            .cornerRadius(Self.itemCornerRadius)
+            .overlay(alignment: .bottomLeading) {
+                if asset.isFavorite {
+                    Image(systemName: "heart.fill")
+                        .foregroundColor(.white)
+                        .shadow(color: .black.opacity(0.3), radius: 5, x: 0, y: 1)
+                        .font(.callout)
+                        .offset(x: 4, y: -4)
+                }
+            }
+            .onAppear {
+                Task {
+                    await photoCollection.cache.startCaching(for: [asset], targetSize: imageSize)
+                }
+            }
+            .onDisappear {
+                Task {
+                    await photoCollection.cache.stopCaching(for: [asset], targetSize: imageSize)
+                }
+            }
+    }
 }
 
 #Preview {
