@@ -20,4 +20,12 @@ class PhotoAssetCollection: RandomAccessCollection {
         self.fetchResult = fetchResult
     }
     
+    subscript(position: Int) -> PhotoAsset {
+        if let asset = cache[position] {
+            return asset
+        }
+        let asset = PhotoAsset(phAsset: fetchResult.object(at: position), index: position)
+        cache[position] = asset
+        return asset
+    }
 }
