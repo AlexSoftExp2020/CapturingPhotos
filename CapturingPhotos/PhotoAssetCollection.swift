@@ -28,4 +28,13 @@ class PhotoAssetCollection: RandomAccessCollection {
         cache[position] = asset
         return asset
     }
+    
+    var phAssets: [PHAsset] {
+        var assets = [PHAsset]()
+        fetchResult.enumerateObjects { (object, count, stop) in
+            assets.append(object)
+        }
+        return assets
+    }
+    
 }
