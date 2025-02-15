@@ -16,7 +16,27 @@ struct PhotoItemView: View {
     @State private var imageRequestID: PHImageRequestID?
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        Group {
+            if let image = image {
+                image
+                    .resizable()
+                    .scaledToFill()
+            } else {
+                ProgressView()
+                    .scaleEffect(0.5)
+            }
+        }
+        .task {
+            guard image == nil, let cache = cache else { return }
+            imageRequestID = await cache.requestImage(for: asset, targetSize: imageSize) { result in
+                Task {
+                    if let result = result {
+                        self.image = result.image
+                    }
+                }
+            }
+        }
     }
 }
 
