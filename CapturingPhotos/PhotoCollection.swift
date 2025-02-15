@@ -211,4 +211,23 @@ class PhotoCollection: NSObject, ObservableObject {
         let collections = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: subtype, options: fetchOptions)
         return collections.firstObject
     }
+    
+    private static func createAlbum(named name: String) async throws -> PHAssetCollection? {
+        var collectionPlaceholder: PHObjectPlaceholder?
+        do {
+            try await PHPhotoLibrary.shared().performChanges {
+                let createAlbumRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: name)
+                collectionPlaceholder = createAlbumRequest.placeholderForCreatedAssetCollection
+            }
+        } catch let error {
+            logger.error("Error creating album in photo library: \(error.localizedDescription)")
+            throw PhotoCollectionError.createAlbumError(error)
+        }
+        logger.log("Created photo album named: \(name)")
+        guard let collectionIdentifier = collectionPlaceholder?.localIdentifier else {
+            throw PhotoCollectionError.missingLocalIdentifier
+        }
+        let collections = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [collectionIdentifier], options: nil)
+        return collections.firstObject
+    }
 }
