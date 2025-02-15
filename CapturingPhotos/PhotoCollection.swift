@@ -24,4 +24,15 @@ class PhotoCollection: NSObject, ObservableObject {
     private var assetCollection: PHAssetCollection?
     
     private var createAlbumIfNotFound = false
+    
+    enum  PhotoCollectionError: LocalizedError {
+        case missingAssetCollection
+        case missingAlbumName
+        case missingLocalIdentifier
+        case unableToFindAlbum(String)
+        case unableToLoadSmartAlbum(PHAssetCollectionSubtype)
+        case addImageError(Error)
+        case createAlbumError(Error)
+        case removeAllError(Error)
+    }
 }
