@@ -151,4 +151,25 @@ class PhotoCollection: NSObject, ObservableObject {
             throw PhotoCollectionError.removeAllError(error)
         }
     }
+    
+    func removeAll() async throws {
+        guard let assetCollection = self.assetCollection else {
+            throw PhotoCollectionError.missingAssetCollection
+        }
+        
+        do {
+            try await PHPhotoLibrary.shared().performChanges {
+                if let albumChangeRequest = PHAssetCollectionChangeRequest(for: assetCollection),
+                    let assets = (PHAsset.fetchAssets(in: assetCollection, options: nil) as AnyObject?) as! PHFetchResult<AnyObject>? {
+                    albumChangeRequest.removeAssets(assets)
+                }
+            }
+            
+            await refreshPhotoAssets()
+            
+        } catch let error {
+            logger.error("Error removing all photos from the album: \(error.localizedDescription)")
+            throw PhotoCollectionError.removeAllError(error)
+        }
+    }
 }
