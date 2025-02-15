@@ -240,3 +240,5 @@ extension PhotoCollection: PHPhotoLibraryChangeObserver {
         }
     }
 }
+
+fileprivate let logger = Logger(subsystem: "upd.CapturingPhotos", category: "PhotoCollection")
