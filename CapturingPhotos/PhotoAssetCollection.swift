@@ -36,5 +36,19 @@ class PhotoAssetCollection: RandomAccessCollection {
         }
         return assets
     }
+}
+
+extension PhotoAssetCollection: Sequence, IteratorProtocol {
     
+    func next() -> PhotoAsset? {
+        if iteratorIndex >= count {
+            return nil
+        }
+        
+        defer {
+            iteratorIndex += 1
+        }
+        
+        return self[iteratorIndex]
+    }
 }
