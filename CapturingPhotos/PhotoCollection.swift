@@ -63,4 +63,45 @@ class PhotoCollection: NSObject, ObservableObject {
     deinit {
         PHPhotoLibrary.shared().unregisterChangeObserver(self)
     }
+    
+    func load() async throws {
+        
+        PHPhotoLibrary.shared().register(self)
+        
+        if let smartAlbumType = smartAlbumType {
+            if let assetCollection = PhotoCollection.getSmartAlbum(subtype: smartAlbumType) {
+                logger.log("Loaded smart album of type: \(smartAlbumType.rawValue)")
+                self.assetCollection = assetCollection
+                await refreshPhotoAssets()
+                return
+            } else {
+                logger.error("Unable to load smart album of type: : \(smartAlbumType.rawValue)")
+                throw PhotoCollectionError.unableToLoadSmartAlbum(smartAlbumType)
+            }
+        }
+        
+        guard let name = albumName, !name.isEmpty else {
+            logger.error("Unable to load an album without a name.")
+            throw PhotoCollectionError.missingAlbumName
+        }
+        
+        if let assetCollection = PhotoCollection.getAlbum(named: name) {
+            logger.log("Loaded photo album named: \(name)")
+            self.assetCollection = assetCollection
+            await refreshPhotoAssets()
+            return
+        }
+        
+        guard createAlbumIfNotFound else {
+            logger.error("Unable to find photo album named: \(name)")
+            throw PhotoCollectionError.unableToFindAlbum(name)
+        }
+
+        logger.log("Creating photo album named: \(name)")
+        
+        if let assetCollection = try? await PhotoCollection.createAlbum(named: name) {
+            self.assetCollection = assetCollection
+            await refreshPhotoAssets()
+        }
+    }
 }
