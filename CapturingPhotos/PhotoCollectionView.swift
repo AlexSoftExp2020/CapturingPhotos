@@ -71,7 +71,3 @@ struct PhotoCollectionView: View {
             }
     }
 }
-
-#Preview {
-    PhotoCollectionView()
-}
