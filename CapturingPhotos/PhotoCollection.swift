@@ -192,4 +192,10 @@ class PhotoCollection: NSObject, ObservableObject {
             }
         }
     }
+    
+    private static func getAlbum(identifier: String) -> PHAssetCollection? {
+        let fetchOptions = PHFetchOptions()
+        let collections = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [identifier], options: fetchOptions)
+        return collections.firstObject
+    }
 }
