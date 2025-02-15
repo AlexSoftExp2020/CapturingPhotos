@@ -198,4 +198,11 @@ class PhotoCollection: NSObject, ObservableObject {
         let collections = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [identifier], options: fetchOptions)
         return collections.firstObject
     }
+    
+    private static func getAlbum(named name: String) -> PHAssetCollection? {
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.predicate = NSPredicate(format: "title = %@", name)
+        let collections = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: fetchOptions)
+        return collections.firstObject
+    }
 }
