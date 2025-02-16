@@ -17,7 +17,35 @@ struct PhotoView: View {
     private let imageSize = CGSize(width: 1024, height: 1024)
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Group {
+            if let image = image {
+                image
+                    .resizable()
+                    .scaledToFit()
+                    .accessibilityLabel(asset.accessibilityLabel)
+            } else {
+                ProgressView()
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .ignoresSafeArea()
+        .background(Color.secondary)
+        .navigationTitle("Photo")
+        .navigationBarTitleDisplayMode(.inline)
+        .overlay(alignment: .bottom) {
+            buttonsView()
+                .offset(x: 0, y: -50)
+        }
+        .task {
+            guard image == nil, let cache = cache else { return }
+            imageRequestID = await cache.requestImage(for: asset, targetSize: imageSize) { result in
+                Task {
+                    if let result = result {
+                        self.image = result.image
+                    }
+                }
+            }
+        }
     }
 }
 
