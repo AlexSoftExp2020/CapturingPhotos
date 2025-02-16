@@ -47,6 +47,37 @@ struct PhotoView: View {
             }
         }
     }
+    
+    private func buttonsView() -> some View {
+        HStack(spacing: 60) {
+            
+            Button {
+                Task {
+                    await asset.setIsFavorite(!asset.isFavorite)
+                }
+            } label: {
+                Label("Favorite", systemImage: asset.isFavorite ? "heart.fill" : "heart")
+                    .font(.system(size: 24))
+            }
+
+            Button {
+                Task {
+                    await asset.delete()
+                    await MainActor.run {
+                        dismiss()
+                    }
+                }
+            } label: {
+                Label("Delete", systemImage: "trash")
+                    .font(.system(size: 24))
+            }
+        }
+        .buttonStyle(.plain)
+        .labelStyle(.iconOnly)
+        .padding(EdgeInsets(top: 20, leading: 30, bottom: 20, trailing: 30))
+        .background(Color.secondary.colorInvert())
+        .cornerRadius(15)
+    }
 }
 
 #Preview {
