@@ -25,5 +25,5 @@ struct ThumbnailView: View {
 }
 
 #Preview {
-    ThumbnailView()
+    ThumbnailView(image: Image(systemName: "photo.fill"))
 }
