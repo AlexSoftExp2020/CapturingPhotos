@@ -23,5 +23,5 @@ struct ViewfinderView: View {
 }
 
 #Preview {
-    ViewfinderView()
+    ViewfinderView(image: .constant(Image(systemName: "pencil")))
 }
