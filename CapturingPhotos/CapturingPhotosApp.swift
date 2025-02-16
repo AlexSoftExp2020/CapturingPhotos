@@ -15,7 +15,7 @@ struct CapturingPhotosApp: App {
     }
     var body: some Scene {
         WindowGroup {
-        //MARK: TODO CameraView()
+            CameraView()
         }
     }
 }
