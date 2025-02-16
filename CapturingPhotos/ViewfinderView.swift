@@ -8,8 +8,17 @@
 import SwiftUI
 
 struct ViewfinderView: View {
+    @Binding var image: Image?
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        GeometryReader { geometry in
+            if let image = image {
+                image
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+            }
+        }
     }
 }
 
