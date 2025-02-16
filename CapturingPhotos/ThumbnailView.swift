@@ -8,8 +8,19 @@
 import SwiftUI
 
 struct ThumbnailView: View {
+    var image: Image?
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            Color.white
+            if let image = image {
+                image
+                    .resizable()
+                    .scaledToFill()
+            }
+        }
+        .frame(width: 41, height: 41)
+        .cornerRadius(11)
     }
 }
 
