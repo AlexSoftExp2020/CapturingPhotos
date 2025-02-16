@@ -12,7 +12,7 @@ struct PhotoView: View {
     var asset: PhotoAsset
     var cache: CachedImageManager?
     @State private var image: Image?
-    @State private var imageRequest: PHImageRequestID?
+    @State private var imageRequestID: PHImageRequestID?
     @Environment(\.dismiss) var dismiss
     private let imageSize = CGSize(width: 1024, height: 1024)
     

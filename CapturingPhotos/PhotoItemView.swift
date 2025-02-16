@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Photos
 
 struct PhotoItemView: View {
     var asset: PhotoAsset

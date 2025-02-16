@@ -9,10 +9,12 @@ import SwiftUI
 
 struct CameraView: View {
     @StateObject private var model = DataModel()
-    
+ 
     private static let barHeightFactor = 0.15
     
+    
     var body: some View {
+        
         NavigationStack {
             GeometryReader { geometry in
                 ViewfinderView(image:  $model.viewfinderImage )
@@ -101,6 +103,7 @@ struct CameraView: View {
         .labelStyle(.iconOnly)
         .padding()
     }
+    
 }
 
 #Preview {
